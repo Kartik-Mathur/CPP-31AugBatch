@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 bool isPalindrome(char *a) {
@@ -15,7 +16,6 @@ bool isPalindrome(char *a) {
 
 	return true;
 }
-
 
 int main() {
 
