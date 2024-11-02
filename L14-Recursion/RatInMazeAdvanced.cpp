@@ -16,8 +16,8 @@ bool ratInMaze(char maze[][10], int i, int j,
 			cout << endl;
 		}
 		cout << endl;
-
-		return true;
+		sol[i][j] = 0;
+		return false;
 	}
 	// recursive case
 	// Assume jaha khade hai vo solution ka part hai
@@ -58,7 +58,7 @@ int main() {
 
 	char maze[][10] = {
 		"0X000",
-		"0X0X0",
+		"0X000",
 		"0X0X0",
 		"000X0",
 	};
@@ -66,7 +66,6 @@ int main() {
 	int sol[100][100] = {0};
 
 	ratInMaze(maze, 0, 0, 4, 5, sol);
-
 
 	return 0;
 }
