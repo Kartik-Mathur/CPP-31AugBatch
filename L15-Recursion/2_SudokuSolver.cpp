@@ -2,10 +2,12 @@
 #include <cmath>
 using namespace std;
 
-bool isSafe(int i, int j, int n, int mat[][9], int number) {
+bool isSafe(int i, int j, int n,
+            int mat[][9], int number) {
 	for (int k = 0; k < n; ++k)
 	{
-		if (mat[i][k] == number || mat[k][j] == number) {
+		if (mat[i][k] == number
+		        || mat[k][j] == number) {
 			return false;
 		}
 	}
@@ -13,7 +15,6 @@ bool isSafe(int i, int j, int n, int mat[][9], int number) {
 	n = sqrt(n);
 	int si = (i / n) * n;
 	int sj = (j / n) * n;
-
 	for (int i = si; i < si + n; ++i)
 	{
 		for (int j = sj; j < sj + n; ++j)
@@ -23,12 +24,11 @@ bool isSafe(int i, int j, int n, int mat[][9], int number) {
 			}
 		}
 	}
-
 	return true;
 }
 
-
-bool sudokuSolver(int i, int j, int n, int mat[][9]) {
+bool sudokuSolver(int i, int j, int n,
+                  int mat[][9]) {
 	// base case
 	if (i == n) {
 		// Print the matrix
