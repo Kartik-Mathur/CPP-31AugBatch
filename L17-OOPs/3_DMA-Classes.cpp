@@ -29,6 +29,7 @@ public:
 	// 3. Copy Constructor
 	Car(Car &X) {
 		cout << "Inside Copy Constructor\n";
+		name = new char [strlen(X.name) + 1];
 		strcpy(name, X.name);
 		price = X.price;
 		model = X.model;
@@ -37,7 +38,12 @@ public:
 
 	void operator=(Car X) {
 		cout << "Inside Copy Assignment Operator\n";
+		if (name != NULL) {
+			delete[]name;
+		}
+		name = new char[strlen(X.name) + 1];
 		strcpy(name, X.name);
+
 		price = X.price;
 		model = X.model;
 		seats = X.seats;
@@ -59,6 +65,11 @@ public:
 		strcpy(name, a);
 	}
 
+	~Car() {
+		cout << "Deleting: " << name << endl;
+		delete[]name;
+	}
+
 };
 ////////////////// BLUEPRINT ////////////////////////////
 
@@ -71,16 +82,16 @@ int main() {
 	A.seats = 5;
 	A.model = 2020;
 
-	// char name[] = "Audi";
-	// Car B(name, 200, 4, 2022);
+	char name[] = "Audi";
+	Car B(name, 200, 4, 2022);
 
-	// Car C = A;
-	// C = B;
+	Car C = A;
+	C = B;
 
 
 	A.print();
-	// B.print();
-	// C.print();
+	B.print();
+	C.print();
 
 
 	return 0;
