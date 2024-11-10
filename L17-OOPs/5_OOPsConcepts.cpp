@@ -4,49 +4,37 @@ using namespace std;
 ////////////////// BLUEPRINT ////////////////////////////
 class Car {
 public:
-	// Data members
 	char *name;
 	int price;
 	int seats;
 	int model;
+	const int tyres; // These variables can only be initialised
+	static int count;
 
-	// 1. Default Constructor
-	Car() {
+	Car(): tyres(4) {
 		cout << "Inside Default Constructor\n";
 		name = NULL;
+		count++;
 	}
 
-	// 2. Parameterized Constructor
-	Car(char *a, int p, int s, int m) {
+	Car(char *name, int price, int seats, int model): tyres(4)  {
 		cout << "Inside Parameterized Constructor\n";
-		name = new char [strlen(a) + 1];
-		strcpy(name, a);
-		price = p;
-		model = m;
-		seats = s;
+		name = new char [strlen(this->name) + 1];
+		strcpy(this->name, name);
+		this->price = price;
+		this->model = model;
+		this->seats = seats;
+		count++;
 	}
 
-	// 3. Copy Constructor
-	Car(Car &X) {
+	Car(const Car &X): tyres(4) {
 		cout << "Inside Copy Constructor\n";
 		name = new char [strlen(X.name) + 1];
 		strcpy(name, X.name);
 		price = X.price;
 		model = X.model;
 		seats = X.seats;
-	}
-
-	void operator=(Car X) {
-		cout << "Inside Copy Assignment Operator\n";
-		if (name != NULL) {
-			delete[]name;
-		}
-		name = new char[strlen(X.name) + 1];
-		strcpy(name, X.name);
-
-		price = X.price;
-		model = X.model;
-		seats = X.seats;
+		count++;
 	}
 
 
@@ -54,6 +42,7 @@ public:
 		cout << "Name    :" << name << endl;
 		cout << "Price   :" << price << endl;
 		cout << "Model   :" << model << endl;
+		cout << "Tyres   :" << tyres << endl;
 		cout << "Seats   :" << seats << endl << endl;
 	}
 
@@ -66,36 +55,33 @@ public:
 	}
 
 	~Car() {
-		cout << "Deleting: " << name << endl;
-		delete[]name;
+		count--;
 	}
-
 };
 ////////////////// BLUEPRINT ////////////////////////////
+
+// Scope resolution operator ::
+int Car::count = 0;
 
 
 int main() {
 	Car A;
 	// strcpy(A.name, "BMW");
-	A.setName("BMW");
+	char name[] = "BMW";
+	A.setName(name);
 	A.price = 100;
 	A.seats = 5;
 	A.model = 2020;
 
-	char name[] = "Audi";
-	Car B(name, 200, 4, 2022);
-
+	Car B = A; // Copy Constructor
 	Car C = A;
-
-	C = A;
-	B = A;
-
-	B.name[0] = 'T';
-
 
 	A.print();
 	B.print();
 	C.print();
+
+	cout << "Total Cars: " << Car::count << endl;
+	cout << "Total Cars: " << A.count << endl;
 
 
 	return 0;
