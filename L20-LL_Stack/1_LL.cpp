@@ -41,49 +41,64 @@ int lengthLL(node* head) {
 	return cnt;
 }
 
-void bubbleSort(node* &head) {
-	node *c, *p, *n;
-	int len = lengthLL(head);
-	for (int i = 0; i < len - 1; ++i)
-	{
-		c = head; p = NULL;
-		while (c and c->next) {
-			n  = c -> next;
-			if (c->data > n->data) { // swapping hogi
-				if (p == NULL) { // Head change hoga
-					c -> next = n->next;
-					n->next = c;
-					head = p = n;
-				}
-				else { // head change nahi hoga
-					c -> next = n->next;
-					n->next = c;
-					p-> next = n;
-					p = n;
-				}
-			}
-			else { // swapping nahi hogi
-				p = c;
-				c = n;
-			}
+void breakCycle(node* head, node* f) {
+	node* s = head;
+	node* fp = head;
+
+	while (fp->next != f) {
+		fp = fp->next;
+	}
+
+	while (s != f) {
+		s = s->next;
+		f = f->next;
+		fp = fp->next;
+	}
+
+	fp->next = NULL;
+}
+
+bool isCyclic(node* head) {
+	node* f, *s;
+	s = f = head;
+	while (f and f->next) {
+		f = f->next->next;
+		s = s->next;
+		if (f == s) {
+			breakCycle(head, f);
+			return true;
 		}
 	}
+
+	return false;
 }
+
 
 int main() {
 
 	node* head = NULL, *tail = NULL;
-	node* head1 = NULL, *tail1 = NULL;
 
-	insertAtEnd(head, tail, 5);
-	insertAtEnd(head, tail, 2);
 	insertAtEnd(head, tail, 1);
-	insertAtEnd(head, tail, 0);
+	insertAtEnd(head, tail, 2);
 	insertAtEnd(head, tail, 3);
 	insertAtEnd(head, tail, 4);
+	insertAtEnd(head, tail, 5);
+	insertAtEnd(head, tail, 6);
+	insertAtEnd(head, tail, 7);
+	insertAtEnd(head, tail, 8);
+
+	tail->next = head->next->next;
+	// printLL(head);
+
+	if (isCyclic(head)) {
+		cout << "Cycle Present\n";
+	}
+	else {
+		cout << "Cycle Not Present\n";
+	}
+
 	printLL(head);
-	bubbleSort(head);
-	printLL(head);
+
 
 
 
