@@ -16,8 +16,10 @@ Linkedlist bstToLL(node* root) {
 
 	// recursive case
 	if (root->left and root->right) {
-		Linkedlist left = bstToLL(root->left);
-		Linkedlist right = bstToLL(root->right);
+		Linkedlist left =
+		    bstToLL(root->left);
+		Linkedlist right =
+		    bstToLL(root->right);
 
 		left.tail->right = root;
 		root->right = right.head;
