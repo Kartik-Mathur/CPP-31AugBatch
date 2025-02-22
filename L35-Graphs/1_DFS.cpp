@@ -14,58 +14,32 @@ public:
 		if (bidir) adj[v].push_back(u);
 	}
 
-	void print() {
-		for (auto p : adj) {
-			cout << p.first << " : ";
-			for (auto neighbour : p.second) {
-				cout << neighbour << " ";
-			}
-			cout << endl;
-		}
-	}
-
-	int SSSP(T src, T des) {
-		unordered_map<T, bool> visited;
-		unordered_map<T, T> parent;
-		unordered_map<T, int> dist;
-
-		queue<T> q;
-		q.push(src);
+	void dfsHelper(T src, unordered_map<T, bool> &visited) {
+		cout << src << " ";
 		visited[src] = true;
-		parent[src] = src;
-		dist[src] = 0;
 
-		while (!q.empty()) {
-			auto n = q.front();
-			q.pop();
+		for (auto ch : adj[src]) {
+			if (!visited[ch]) {
+				dfsHelper(ch, visited);
+			}
+		}
+	}
 
-			for (auto neighbour : adj[n]) {
-				if (!visited[neighbour]) {
-					q.push(neighbour);
-					visited[neighbour] = true;
-					parent[neighbour] = n;
-					dist[neighbour] = dist[n] + 1;
-				}
+	void dfs(T src) {
+		unordered_map<T, bool> visited;
+
+		dfsHelper(src, visited);
+		int components = 1;
+
+		for (auto p : adj) {
+			if (!visited[p.first]) {
+				dfsHelper(p.first, visited);
+				components++;
 			}
 		}
 
-
-		for (auto p : dist) {
-			cout << "Distance of " << src << " from " << p.first << " : " << p.second << endl;
-		}
-
-		int ans = dist[des];
-
-		// Printing the shortest path from des to src
-		while (des != parent[des]) {
-			cout << des << "<--";
-			des = parent[des];
-		}
-		cout << des	<< endl;
-
-		return ans;
+		cout << "\nTotal components: " << components << endl;
 	}
-
 
 
 };
@@ -80,9 +54,10 @@ int main() {
 	g.addEdge('E', 'C');
 	g.addEdge('E', 'D');
 	g.addEdge('E', 'F');
+	g.addEdge('H', 'I');
 
 
-	cout << g.SSSP('A', 'F') << endl;
+	g.dfs('A');
 
 
 
