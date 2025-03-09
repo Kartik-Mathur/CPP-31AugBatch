@@ -40,20 +40,30 @@ public:
 		temp->isWordEnd = true;
 	}
 
-	bool isWordPresent(string word) {
-		node* temp = root;
+	void printAllWords(string &s, node* temp) {
+		if (!temp) return;
 
-		for (int i = 0; i < word.size(); ++i)
+		if (temp->isWordEnd) cout << s << endl;
+
+		for (auto p : temp->h) {
+			s.push_back(p.first);
+			printAllWords(s, p.second);
+			s.pop_back();
+		}
+	}
+
+
+	void autoFill(char* word) {
+		node* temp = root;
+		for (int i = 0; word[i]; ++i)
 		{
 			char ch = word[i];
-			if (temp->h.count(ch) == 0) {
-				return false;
-			}
-
-			temp = temp->h[ch];
+			if (temp->h.count(ch)) temp = temp->h[ch];
+			else return;
 		}
 
-		return temp->isWordEnd;
+		string s(word);
+		printAllWords(s, temp);
 	}
 };
 
@@ -67,9 +77,10 @@ int main() {
 	t.addWord("Coder");
 	t.addWord("Coding");
 	t.addWord("He");
+	t.addWord("Her");
 
-	if (t.isWordPresent("Coders")) cout << "Present hai\n";
-	else cout << "Present Nahi hai\n";
+	t.autoFill("Code");
+
 
 	return 0;
 }
